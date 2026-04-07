@@ -11,12 +11,12 @@ import org.example.entity.ProgramObrazovanja;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("mojPersistanceUnit");
+        EntityManager em = emf.createEntityManager();
+        EntityTransaction tx = em.getTransaction();
 
-        try(EntityManagerFactory emf = Persistence.createEntityManagerFactory("mojPersistanceUnit");
-            EntityManager em = emf.createEntityManager()) {
-
+        try{
             System.out.println("START");
-            EntityTransaction tx = em.getTransaction();
 
             tx.begin();
 
@@ -39,11 +39,23 @@ public class Main {
             em.persist(programObrazovanja2);
             em.persist(programObrazovanja3);
 
+            // Petraga + update
+            Integer IDPolaznik = 7;
+            Polaznik noviPolaznik = em.find(Polaznik.class, IDPolaznik);
+            if(noviPolaznik != null){
+                noviPolaznik.setPrezime("Novo prezime");
+                em.merge(noviPolaznik);
+            }
+
             tx.commit();
 
             System.out.println("END");
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            if (tx.isActive ()) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            em.close();
+            emf.close();
         }
     }
 }
