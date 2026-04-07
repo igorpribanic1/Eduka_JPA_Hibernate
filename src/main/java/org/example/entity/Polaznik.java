@@ -23,6 +23,9 @@ public class Polaznik {
     @JoinTable(name = "Upis", joinColumns = @JoinColumn(name = "PolaznikID"), inverseJoinColumns = @JoinColumn(name = "ProgramObrazovanjaID"))
     private List<ProgramObrazovanja> programiObrazovanja = new ArrayList<>();
 
+    public Polaznik() {
+    }
+
     public Polaznik(String ime, String prezime) {
         this.ime = ime;
         this.prezime = prezime;

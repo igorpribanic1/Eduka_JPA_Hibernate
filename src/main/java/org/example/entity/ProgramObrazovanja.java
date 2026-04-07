@@ -22,6 +22,9 @@ public class ProgramObrazovanja {
     @ManyToMany(mappedBy = "programiObrazovanja", cascade = CascadeType.ALL)
     private List<Polaznik> polaznici = new ArrayList<>();
 
+    public ProgramObrazovanja() {
+    }
+
     public ProgramObrazovanja(String naziv, int cvset) {
         this.naziv = naziv;
         this.cvset = cvset;
